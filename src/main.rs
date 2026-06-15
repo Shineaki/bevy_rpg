@@ -61,7 +61,7 @@ fn setup(
     commands.spawn((
         TiledMap(map_handle),
         TilemapAnchor::Center,
-        // Transform::from_scale(Vec3::splat(3.0)),
+        Transform::from_scale(Vec3::splat(3.0)),
     )).observe(|collider_created: On<TiledEvent<ColliderCreated>>, mut commands: Commands| {
             // Filter collider created from Tiled objects
             println!("Collider created from Tiled: {:?}", collider_created.event());
@@ -78,15 +78,11 @@ fn setup(
         MeshMaterial2d(materials.add(Color::srgb(0.2, 0.7, 0.9))),
         Transform::from_xyz(0.0, 0.0, 0.0),
         CharacterControllerBundle::new(Collider::capsule(12.5, 20.0)).with_movement(
-            1250.0,
-            5.0,
-            400.0,
-            (30.0 as Scalar).to_radians(),
+            100.0,
+            25.0,
         ),
         Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
         Restitution::ZERO.with_combine_rule(CoefficientCombine::Min),
-        ColliderDensity(2.0),
-        GravityScale(0.),
     ));
     commands.spawn((
         Sprite {
