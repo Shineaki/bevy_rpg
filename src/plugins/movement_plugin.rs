@@ -140,8 +140,9 @@ fn movement(
                 MovementAction::Move(direction) => {
                     let dir = direction.normalize_or_zero();
                     // linear_velocity += *direction * movement_acceleration.0 * delta_time;
-                    linear_velocity.x += movement_acceleration.0 * dir.x;
-                    linear_velocity.y += movement_acceleration.0 * dir.y;
+                    // linear_velocity.x += movement_acceleration.0 * dir.x;
+                    // linear_velocity.y += movement_acceleration.0 * dir.y;
+                    linear_velocity.0 += movement_acceleration.0 * dir;
                 }
                 // MovementAction::Jump => {
                 //     if is_grounded {
