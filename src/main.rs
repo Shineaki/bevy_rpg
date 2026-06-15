@@ -6,7 +6,7 @@ use avian2d::prelude::*;
 use bevy::prelude::*;
 use bevy_ecs_tiled::physics::TiledPhysicsPlugin;
 use bevy_ecs_tiled::physics::backend::avian::TiledPhysicsAvianBackend;
-use bevy_ecs_tiled::physics::collider::{ColliderCreated, TiledColliderOf};
+use bevy_ecs_tiled::physics::collider::{ColliderCreated, TiledColliderOf, TiledColliderSource};
 use bevy_ecs_tiled::prelude::TilemapAnchor;
 use bevy_ecs_tiled::tiled::TiledPlugin;
 use bevy_ecs_tiled::tiled::event::TiledEvent;
@@ -61,14 +61,16 @@ fn setup(
     commands.spawn((
         TiledMap(map_handle),
         TilemapAnchor::Center,
-        Transform::from_scale(Vec3::splat(3.0)),
+        // Transform::from_scale(Vec3::splat(3.0)),
     )).observe(|collider_created: On<TiledEvent<ColliderCreated>>, mut commands: Commands| {
             // Filter collider created from Tiled objects
             println!("Collider created from Tiled: {:?}", collider_created.event());
-            // Add a RigidBody::Static to the collider entity
-            commands
-                .entity(collider_created.event().origin)
-                .insert(RigidBody::Static);
+            if collider_created.event().event.source == TiledColliderSource::TilesLayer {
+                // Add a RigidBody::Static to the collider entity
+                commands
+                    .entity(collider_created.event().origin)
+                    .insert(RigidBody::Static);
+            }
         });
     // player2
     commands.spawn((
