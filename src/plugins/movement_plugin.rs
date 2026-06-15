@@ -108,7 +108,7 @@ fn keyboard_input(
 
     let horizontal = right as i8 - left as i8;
     let vertical = up as i8 - down as i8;
-    let direction = Vector2::new(horizontal as Scalar, vertical as Scalar);
+    let direction = Vector2::new(horizontal as Scalar, vertical as Scalar).clamp_length_max(1.);
 
     if direction != Vector2::ZERO {
         movement_writer.write(MovementAction::Move(direction));
@@ -138,11 +138,8 @@ fn movement(
         {
             match event {
                 MovementAction::Move(direction) => {
-                    let dir = direction.normalize_or_zero();
-                    // linear_velocity += *direction * movement_acceleration.0 * delta_time;
-                    // linear_velocity.x += movement_acceleration.0 * dir.x;
-                    // linear_velocity.y += movement_acceleration.0 * dir.y;
-                    linear_velocity.0 += movement_acceleration.0 * dir;
+                    // let dir: Vec2 = direction.normalize_or_zero();
+                    linear_velocity.0 += movement_acceleration.0 * direction * delta_time;
                 }
                 // MovementAction::Jump => {
                 //     if is_grounded {

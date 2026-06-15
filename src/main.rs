@@ -78,8 +78,8 @@ fn setup(
         MeshMaterial2d(materials.add(Color::srgb(0.2, 0.7, 0.9))),
         Transform::from_xyz(0.0, 0.0, 0.0),
         CharacterControllerBundle::new(Collider::capsule(12.5, 20.0)).with_movement(
-            100.0,
-            25.0,
+            5000.0,
+            20.0,
         ),
         Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
         Restitution::ZERO.with_combine_rule(CoefficientCombine::Min),
